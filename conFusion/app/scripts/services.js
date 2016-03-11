@@ -27,9 +27,9 @@ angular.module('confusionApp')
                     $http.get(baseURL+"dishes/"+index);
                 };
 
-                this.getFeatured = function (index) {
+               /* this.getFeatured = function (index) {
                     return dishes[0];
-                };
+                };*/
 
                 // implement a function named getPromotion
                 // that returns a selected promotion.
@@ -90,9 +90,9 @@ angular.module('confusionApp')
                 return leadership[index];
             };
 
-            corpfac.getSpecialist = function (index) {
+          /*  corpfac.getSpecialist = function (index) {
                 return leadership[3];
-            };
+            };*/
 
             return corpfac;
 
