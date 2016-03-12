@@ -2,6 +2,7 @@
 
 angular.module('confusionApp')
 
+//MenuController
         .controller('MenuController', ['$scope', 'menuFactory', function($scope, menuFactory) {
 
             $scope.tab = 1;
@@ -45,6 +46,7 @@ angular.module('confusionApp')
             };
         }])
 
+//ContactController
         .controller('ContactController', ['$scope', function($scope) {
 
             $scope.feedback = {mychannel:"", firstName:"", lastName:"", agree:false, email:"" };
@@ -56,6 +58,7 @@ angular.module('confusionApp')
 
         }])
 
+//FeedbackController
         .controller('FeedbackController', ['$scope', function($scope) {
 
             $scope.sendFeedback = function() {
@@ -76,6 +79,7 @@ angular.module('confusionApp')
             };
         }])
 
+//DishDetailController
         .controller('DishDetailController', ['$scope', '$stateParams', 'menuFactory', function($scope, $stateParams, menuFactory) {
 
             $scope.dish = {};
@@ -94,6 +98,7 @@ angular.module('confusionApp')
 
         }])
 
+//DishCommentController
          .controller('DishCommentController', ['$scope', 'menuFactory', function($scope,menuFactory) {
 
             $scope.mycomment = {rating:5, comment:"", author:"", date:""};
@@ -111,16 +116,17 @@ angular.module('confusionApp')
             }
         }])
 
-        // implement the IndexController and About Controller here
 
+// IndexController
 
        .controller('IndexController',  ['$scope', '$stateParams', 'menuFactory', 'corporateFactory', function($scope, $stateParams, menuFactory, corporateFactory) {
 
         $scope.dish = {};
         $scope.showDish = false;
         $scope.message="Loading ...";
-        $scope.dish = menuFactory.getDishes().get({id:0})
 
+        // Featured dish
+        $scope.dish = menuFactory.getDishes().get({id:0})
         .$promise.then(
             function(response){
                     $scope.dish = response;
@@ -131,17 +137,47 @@ angular.module('confusionApp')
                     }
             );
 
-        $scope.leader = corporateFactory.getLeader(3);
-        $scope.promotion = menuFactory.getPromotion(0);
 
+        // Get Specialist leader
+        $scope.leader = corporateFactory.getLeaders().get({id:3})
+        .$promise.then(
+            function(response){
+                    $scope.singleLeader = response;
+                    $scope.showLeader = true;
+                    },
+            function(response){
+                    $scope.message = "Error: " + response.status + " " + response.statusText;
+                    }
+                );
+
+        // Get Promotion
+        $scope.promotion = menuFactory.getPromotion().get({id:0})
+                .$promise.then(
+                  function(response){
+                    $scope.thePromotion = response;
+                    $scope.showPromotion = true;
+                  },
+                  function(response){
+                    $scope.message = "Error: " + response.status + " " + response.statusText;
+                  }
+                );
 
         }])
 
-
+//AboutController
 
         .controller('AboutController', ['$scope', 'corporateFactory', function($scope, corporateFactory){
 
-            $scope.leaders = corporateFactory.getLeaders();
+            //get ALL leaders
+            $scope.leaders = corporateFactory.getLeaders().query(
+                function(response){
+                  $scope.leader = response;
+                  $scope.showLeader = true;
+                },
+                function(response){
+                  $scope.message = "Error: " + response.status + " " + response.statusText;
+                }
+              );
 
         }])
 
