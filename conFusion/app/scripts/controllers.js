@@ -59,7 +59,7 @@ angular.module('confusionApp')
         }])
 
 //FeedbackController
-        .controller('FeedbackController', ['$scope', function($scope) {
+        .controller('FeedbackController', ['$scope', 'feedbackFactory', function($scope, feedbackFactory) {
 
             $scope.sendFeedback = function() {
 
@@ -70,6 +70,7 @@ angular.module('confusionApp')
                     console.log('incorrect');
                 }
                 else {
+                    feedbackFactory.getFeedback().save({id:$scope.feedback.id}, $scope.feedback); //saves the feedback to the server
                     $scope.invalidChannelSelection = false;
                     $scope.feedback = {mychannel:"", firstName:"", lastName:"", agree:false, email:"" };
                     $scope.feedback.mychannel="";
@@ -101,13 +102,12 @@ angular.module('confusionApp')
 //DishCommentController
          .controller('DishCommentController', ['$scope', 'menuFactory', function($scope,menuFactory) {
 
-            $scope.mycomment = {rating:5, comment:"", author:"", date:""};
-
             $scope.submitComment = function () {
 
                 $scope.mycomment.date = new Date().toISOString();
                 console.log($scope.mycomment);
                 $scope.dish.comments.push($scope.mycomment);
+
 
                 menuFactory.getDishes().update({id:$scope.dish.id},$scope.dish);
                 $scope.commentForm.$setPristine();
@@ -142,7 +142,7 @@ angular.module('confusionApp')
         $scope.leader = corporateFactory.getLeaders().get({id:3})
         .$promise.then(
             function(response){
-                    $scope.singleLeader = response;
+                    $scope.leader = response;
                     $scope.showLeader = true;
                     },
             function(response){
@@ -154,7 +154,7 @@ angular.module('confusionApp')
         $scope.promotion = menuFactory.getPromotion().get({id:0})
                 .$promise.then(
                   function(response){
-                    $scope.thePromotion = response;
+                    $scope.promotion = response;
                     $scope.showPromotion = true;
                   },
                   function(response){

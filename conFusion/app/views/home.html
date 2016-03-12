@@ -11,7 +11,7 @@
                 </div>
         <div class="media" ng-if="showDish">
                 <div class="media-left media-middle">
-                    <a ui-sref="app.dishdetails({id: dish._id})">
+                    <a ui-sref="app.dishdetails({id: dish.id})">
                         <img class="media-object img-thumbnail" ng-src={{dish.image}} alt="Uthappizza">
                     </a>
                 </div>
@@ -32,11 +32,16 @@
                 <h3 align=center>This Month's Promotions</h3>
             </div>
             <div class="col-xs-12 col-sm-9">
-             <div class="media">
+
+            <div ng-if="!showPromotion">
+                <h3>{{message}}</h3>
+            </div>
+
+             <div class="media" ng-if="showPromotion">
                 <div class="media-left media-middle">
-                    <a ui-sref="app.dishdetails({id: promotion._id})">
+
                         <img class="media-object img-thumbnail" ng-src={{promotion.image}}>
-                    </a>
+
                 </div>
                 <div class="media-body">
                     <h2 class="media-heading">{{promotion.name}}
@@ -54,7 +59,10 @@
                 <h3 align=center>Meet our Culinary Specialists</h3>
             </div>
             <div class="col-xs-12 col-sm-9 col-sm-pull-3">
-            <div class="media">
+            <div ng-if="!showLeader">
+                {{message}}
+            </div>
+            <div class="media" ng-if="showLeader">
                 <div class="media-left media-middle">
                     <img class="media-object img-thumbnail" ng-src={{leader.image}}>
                 </div>
